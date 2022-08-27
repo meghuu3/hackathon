@@ -1,0 +1,22 @@
+SELECT Account_Key, SUM(Transaction_Amount) AS Totalpay
+FROM customer_transactions
+WHERE Transaction_type='OUT' AND (Transaction_date BETWEEN '01-01-2019' AND '31-01-2019')
+GROUP BY Account_Key  
+HAVING SUM(Transaction_Amount)>800;
+
+SELECT Account_Key, SUM(Transaction_Amount) AS Totalpay
+FROM customer_transactions
+WHERE Transaction_type='INN' AND (Transaction_date BETWEEN '01-01-2019' AND '31-01-2019')
+GROUP BY Account_Key  
+HAVING SUM(Transaction_Amount)>1000;
+
+SELECT Account_Key, COUNT(Transfer_Key) AS CNT
+FROM customer_transactions
+WHERE origin IN (SELECT ENTITY_KEY FROM countries_info WHERE LIST_ID='AML-CTY-HR-01') AND (Transaction_date BETWEEN '01-01-2019' AND '31-01-2019')
+GROUP BY Account_Key  
+HAVING COUNT(Transfer_Key)>10;
+
+SELECT Account_Key, COUNT(Transfer_Key) AS CNTT
+FROM customer_transactions
+GROUP BY Account_Key  
+HAVING COUNT(Transfer_Key)>20;
